@@ -152,6 +152,12 @@ body {
 	color: black;
 }
 
+#current_dir {
+	color: beige;
+	font-family: Monospace;
+	font-size: 9pt;
+}
+
 #editor-element {
 	min-height: 100%;
 	font-family: Monospace;

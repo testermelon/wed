@@ -34,11 +34,6 @@ function actionUp(){
 	obtainDirList(updir); 
 }
 
-function actionBrowserHome(){
-	if(current_dir == encodeURIComponent(playlist_home + "/")) return;
-	obtainDirList(encodeURIComponent(playlist_home)); 
-}
-
 function actionBrowserItemClick(dir) {
 	browser_history_back.push(current_dir);
 	browser_history_forward = [];
@@ -64,10 +59,9 @@ function actionRename() {
 	renamePlaylist(playlist_showing_no,name);
 }
 
-
-function actionDelete(){
-	let okay = confirm("Hapus playlist " + playlist_list[playlist_showing_no] + "?" );
-	if(okay) delPlaylist(playlist_showing_no);
+function actionHome(){
+	if(current_dir == encodeURIComponent(home_dir + "/")) return;
+	obtainDirList(encodeURIComponent(home_dir)); 
 }
 
 //*************************
@@ -164,7 +158,7 @@ function obtainDirList(dirname) {
 			}
 			document.getElementById("editor-element").innerHTML = playlist_html;
 			current_dir = dirname + "%2F";
-			document.getElementById("current_dir").innerHTML = "<option>" + decodeURIComponent(current_dir).replace(playlist_home,'') + "</option>";
+			document.getElementById("current_dir").innerHTML = decodeURIComponent(current_dir).replace(home_dir,'') ;
 		}
 	}
 	xhttp.open("GET","getDirList.php?dir="+dirname,true);
