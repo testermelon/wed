@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
+	<link type="text/css" rel="stylesheet" href="note.css">
+</head>
+
+<body>
+	<script src="note.js"></script>
+
+	<div class="panel">
+
+		<div class="pane">
+			<button id="new-button" onclick=actionNewFile() class="roundsquare-button"></button>
+			<button id="newdir-button" onclick=actionNewDir() class="roundsquare-button"></button>
+			<button id="rename-button" onclick=actionRename() class="roundsquare-button"></button>
+			<button id="up-button" onclick=actionUp() class="roundsquare-button"></button>
+			<button id="back-button" onclick=actionBack() class="roundsquare-button"></button>
+			<button id="delete-button" onclick=actionDelete() class="roundsquare-button"></button>
+		</div>
+
+		<div class="pane">
+			<div>	
+				/ <span id="current_dir">  </span>
+			</div>
+		</div>
+
+		<div class="edit-area">
+			<div id="editor-element" contentEditable >Your Text Here</div>
+		</div>	
+	</div>
+
+</body>
+
+</html>
+
+

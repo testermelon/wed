@@ -1,0 +1,170 @@
+html {
+	background-color: black;
+}
+
+body {
+	max-width: 960px;
+	margin: auto;
+	color:white;
+	font-family: "Verdana", Helvetica, sans-serif;
+	font-size: 12pt;
+	display: flex;
+	background-color: #1F1F1F;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.panel {
+	flex: 1;
+	border-radius: 5px;
+}
+
+.pane {
+	margin:5px;
+}
+
+.edit-area {
+	margin:5px;
+	border-radius: 5px;
+	background-color:#333333; 
+	height: calc(100vh - 100px);
+	overflow-y:auto; 
+}
+
+.list_item{
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+
+}
+
+.list_item:hover {
+	background-color: #444444;
+}
+
+.list-item-name {
+	flex: 1;
+	margin: 5px;
+	max-width: calc(45vw - 35px);
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.list-item-name:hover {
+	cursor:pointer;
+}
+
+#new-button {
+	background-image: url('icons/wh-add-file-50.png');
+}
+#new-button:hover {
+	background-image: url('icons/bk-add-file-50.png');
+}
+
+#rename-button {
+	background-image: url('icons/wh-rename-50.png');
+}
+#rename-button:hover {
+	background-image: url('icons/bk-rename-50.png');
+}
+
+#clear-button {
+	background-image: url('icons/wh-broom-50.png');
+}
+#clear-button:hover {
+	background-image: url('icons/bk-broom-50.png');
+}
+
+#delete-button {
+	background-image: url('icons/wh-trash-50.png');
+}
+#delete-button:hover {
+	background-image: url('icons/bk-trash-50.png');
+}
+
+#up-button {
+	background-image: url('icons/wh-double-up-50.png');
+}
+#up-button:hover {
+	background-image: url('icons/bk-double-up-50.png');
+}
+
+#back-button {
+	background-image: url('icons/wh-double-left-50.png');
+}
+#back-button:hover {
+	background-image: url('icons/bk-double-left-50.png');
+}
+
+#forward-button {
+	background-image: url('icons/wh-double-right-50.png');
+}
+#forward-button:hover {
+	background-image: url('icons/bk-double-right-50.png');
+}
+
+#home-button {
+	background-image: url('icons/wh-home-50.png');
+}
+#home-button:hover {
+	background-image: url('icons/bk-home-50.png');
+}
+
+
+#newdir-button {
+	background-image: url('icons/wh-add-folder-50.png');
+}
+#newdir-button:hover {
+	background-image: url('icons/bk-add-folder-50.png');
+}
+
+
+.roundsquare-button {
+	background-color: #333333;
+	background-size: 40%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border: none;
+	border-radius: 5px;
+	width: 40px;
+	height: 30px;
+	cursor: pointer;
+}
+
+.roundsquare-button:hover {
+	background-color: gray;
+}
+
+
+.track_button {
+	background-color: transparent;
+	border: none;
+	border-radius: 10px;
+	width: 30px;
+	height: 25px;
+	color: white;
+	cursor: pointer;
+}
+
+.track_button:hover {
+	background-color: white;
+	color: black;
+}
+
+#editor-element {
+	min-height: 100%;
+	font-family: Monospace;
+	font-size: 9pt;
+}
+
+@media only screen and (min-width:960px){
+.list-item-name {
+	max-width: 420px;
+}
+}
+
+@media only screen and (max-width:500px){
+.list-item-name {
+	max-width: calc(90vw - 40px);
+}
