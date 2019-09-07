@@ -8,6 +8,7 @@ let home_dir = "data";
 
 //state variables of the browser
 let current_dir = "";
+let current_file = "";
 
 //browser history
 //in two parts: back and forward
@@ -40,7 +41,19 @@ function actionBrowserItemClick(dir) {
 	obtainDirList(dir); 
 }
 
+function actionFileOpen(file){
+	browser_history_back.push(current_dir);
+	browser_history_forward = [];
+	obtainFileContent(file);
+}
+	
 function actionBack() {
+
+	if (current_file != ""){
+		saveFile(current_file);
+		current_file = "";
+	}
+
 	let back_dir = browser_history_back.pop();
 	if (back_dir == undefined) return;
 
@@ -82,7 +95,10 @@ function initPlayer() {
 }
 
 function setEditable() {
-	document.getElementById("editor-element").contentEditable = true;
+	element = document.getElementById("editor-element");
+	element.contentEditable = true;
+	element.spellcheck = false;
+
 }
 
 function unsetEditable() {
@@ -130,7 +146,6 @@ function delTrack(plno,trno) {
 //
 function obtainDirList(dirname) {
 
-
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -150,7 +165,7 @@ function obtainDirList(dirname) {
 			for (let i=0;i<dir_data.file.length;i++){
 				name = decodeURIComponent(dir_data.file[i].split("%2F").slice(-1)[0]);
 				playlist_html += '<div class="list_item">';
-				playlist_html += '<div class="list-item-name" >';
+				playlist_html += '<div class="list-item-name" onclick=actionFileOpen(\"'+dir_data.file[i]+'\")>';
 				playlist_html += name;
 				playlist_html += '</div>';
 				playlist_html += '<button class="track_button">x</button>';
@@ -164,6 +179,40 @@ function obtainDirList(dirname) {
 	xhttp.open("GET","getDirList.php?dir="+dirname,true);
 	xhttp.send();
 }
+
+function obtainFileContent(file) {
+
+	let xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("current_dir").innerHTML = decodeURIComponent(file).replace(home_dir,'') ;
+			document.getElementById("editor-element").innerHTML = this.responseText;
+			setEditable();
+			current_file = file;
+		}
+	}
+	xhttp.open("GET","textComposer.php?op=o&filepath="+file,true);
+	xhttp.send();
+}
+
+function saveFile(file) {
+
+	let xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			alert("saved");
+		}
+	}
+	xhttp.open("POST","textComposer.php",true);
+	xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	content = document.getElementById("editor-element").innerHTML;
+
+	let filedata = 'op=s&filepath=' + encodeURIComponent(file) +'&content='+encodeURIComponent(content);
+
+	xhttp.send(filedata);
+}
+
 
 function mediaListener(x) {
 	if(x.matches){
