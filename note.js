@@ -67,7 +67,6 @@ function actionBack() {
 }
 
 function actionNewFile(){
-
 	ajaxAddFile();
 }
 
@@ -89,6 +88,11 @@ function actionDeleteFile(file){
 	if( confirm("Hapus file "+ decodeURIComponent(file) +" ? ") ) {
 		ajaxDeleteFile(file);
 	}
+}
+
+function actionNewDir(){
+	let name = prompt("Nama Directory Barunya apa?","New Directory"); 
+	ajaxNewDir(name);
 }
 
 
@@ -243,6 +247,21 @@ function ajaxRenameFile(oldpath,newname){
 	newpath = current_dir + newname;
 	x.send('op=r&oldpath='+encodeURIComponent(oldpath)+'&newpath='+encodeURIComponent(newpath));
 }
+
+function ajaxNewDir(name){
+	let x = new XMLHttpRequest();
+	x.onreadystatechange = function() {
+		if(this.readyState == 4 && this.status == 200) {
+			ajaxObtainDirList(current_dir);
+		}
+	}
+	x.open("POST","textComposer.php",true);
+	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	dirpath = current_dir + name;
+	x.send('op=m&dirpath='+ dirpath);
+}
+
 
 function mediaListener(x) {
 	if(x.matches){

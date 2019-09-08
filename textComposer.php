@@ -62,6 +62,12 @@ function deleteFile(){
 	$filepath = rawurldecode($_POST['filepath']);
 	unlink($filepath) or die("d  gagal");
 }
+
+function createDir(){
+	$dirpath = rawurldecode($_POST['dirpath']);
+	mkdir($dirpath) or die("m gagal");
+}
+
 switch($op){
 
 	case 'n':
@@ -78,6 +84,9 @@ switch($op){
 		break;
 	case 'd':
 		deleteFile();
+		break;
+	case 'm':
+		createDir();
 		break;
 }
 
