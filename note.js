@@ -52,6 +52,7 @@ function actionBack() {
 	if (current_file != ""){
 		ajaxSaveFile(current_file);
 		current_file = "";
+		unsetEditable();
 	}
 
 	let back_dir = browser_history_back.pop();
@@ -85,7 +86,7 @@ function actionHome(){
 }
 
 function actionDeleteFile(file){
-	if( confirm("Hapus file "+ decodeURIComponent(file) +" ? ") ) {
+	if( confirm("Hapus file "+ decodeURIComponent(file.replace(current_dir,"")) +" ? ") ) {
 		ajaxDeleteFile(file);
 	}
 }
@@ -117,11 +118,22 @@ function setEditable() {
 	element = document.getElementById("editor-element");
 	element.contentEditable = true;
 	element.spellcheck = false;
+	document.getElementById("new-button").style.display = "none";
+	document.getElementById("newdir-button").style.display = "none";
+	document.getElementById("up-button").style.display = "none";
+	document.getElementById("home-button").style.display = "none";
 
 }
 
 function unsetEditable() {
-	document.getElementById("editor-element").contentEditable = false;
+	element = document.getElementById("editor-element");
+	element.contentEditable = false;
+	element.spellcheck = false;
+	document.getElementById("new-button").style.display = "inline";
+	document.getElementById("newdir-button").style.display = "inline";
+	document.getElementById("up-button").style.display = "inline";
+	document.getElementById("back-button").style.display = "inline";
+	document.getElementById("home-button").style.display = "inline";
 }
 
 
@@ -176,6 +188,8 @@ function ajaxObtainDirList(dirname) {
 				filelist_html += '<div class="list-item-name" style="color:lawngreen" onclick=actionBrowserItemClick(\"'+dir_data.dir[i]+'\") >';
 				filelist_html += '&#x21b3; ' + name;
 				filelist_html += '</div>';
+				filelist_html += '<button onclick=actionRenameDir(\"'+dir_data.dir[i]+'\") class="track_button">&#x270e;</button>';
+				filelist_html += '<button onclick=actionDeleteDir(\"'+dir_data.dir[i]+'\") class="track_button">x</button>';
 				filelist_html += '</div>';
 			}
 
@@ -185,7 +199,7 @@ function ajaxObtainDirList(dirname) {
 				filelist_html += '<div class="list-item-name" onclick=actionFileOpen(\"'+dir_data.file[i]+'\")>';
 				filelist_html += name;
 				filelist_html += '</div>';
-				filelist_html += '<button onclick=actionRenameFile(\"'+dir_data.file[i]+'\") class="track_button">R</button>';
+				filelist_html += '<button onclick=actionRenameFile(\"'+dir_data.file[i]+'\") class="track_button">&#x270e;</button>';
 				filelist_html += '<button onclick=actionDeleteFile(\"'+dir_data.file[i]+'\") class="track_button">x</button>';
 				filelist_html += '</div>';
 			}

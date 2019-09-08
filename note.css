@@ -166,11 +166,11 @@ body {
 
 @media only screen and (min-width:960px){
 .list-item-name {
-	max-width: 420px;
+	max-width: 880px;
 }
 }
 
 @media only screen and (max-width:500px){
 .list-item-name {
-	max-width: calc(90vw - 40px);
+	max-width: calc(90vw - 80px);
 }
