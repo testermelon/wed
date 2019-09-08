@@ -155,13 +155,13 @@ body {
 #current_dir {
 	color: beige;
 	font-family: Monospace;
-	font-size: 9pt;
+	font-size: 11pt;
 }
 
 #editor-element {
 	min-height: 100%;
 	font-family: Monospace;
-	font-size: 9pt;
+	font-size: 11pt;
 }
 
 @media only screen and (min-width:960px){

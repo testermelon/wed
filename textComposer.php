@@ -68,6 +68,10 @@ function createDir(){
 	mkdir($dirpath) or die("m gagal");
 }
 
+function deleteDir(){
+	$dirpath = rawurldecode($_POST['dirpath']);
+	rmdir($dirpath) or die("m gagal");
+}
 switch($op){
 
 	case 'n':
@@ -88,6 +92,10 @@ switch($op){
 	case 'm':
 		createDir();
 		break;
+	case 'D':
+		deleteDir();
+		break;
+	
 }
 
 ?>

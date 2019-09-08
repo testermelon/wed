@@ -96,6 +96,11 @@ function actionNewDir(){
 	ajaxNewDir(name);
 }
 
+function actionDeleteDir(dir){
+	if( confirm("Hapus directory "+ decodeURIComponent(dir.replace(current_dir,"")) +" ? ") ) {
+		ajaxDeleteDir(dir);
+	}
+}
 
 //*************************
 //event handlings
@@ -170,6 +175,20 @@ function ajaxDeleteFile(file) {
 	xhttp.send("op=d&filepath="+file);
 }
 
+function ajaxDeleteDir(dir) {
+	let xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			ajaxObtainDirList(current_dir);
+		}
+	}
+	
+	xhttp.open("POST","textComposer.php");
+	xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	xhttp.send("op=D&dirpath="+dir);
+}
+
 //obtain playlist from server and show it to playlist pane
 // dirname should be URL safe
 //
@@ -188,7 +207,7 @@ function ajaxObtainDirList(dirname) {
 				filelist_html += '<div class="list-item-name" style="color:lawngreen" onclick=actionBrowserItemClick(\"'+dir_data.dir[i]+'\") >';
 				filelist_html += '&#x21b3; ' + name;
 				filelist_html += '</div>';
-				filelist_html += '<button onclick=actionRenameDir(\"'+dir_data.dir[i]+'\") class="track_button">&#x270e;</button>';
+				filelist_html += '<button onclick=actionRenameFile(\"'+dir_data.dir[i]+'\") class="track_button">&#x270e;</button>';
 				filelist_html += '<button onclick=actionDeleteDir(\"'+dir_data.dir[i]+'\") class="track_button">x</button>';
 				filelist_html += '</div>';
 			}
