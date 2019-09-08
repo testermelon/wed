@@ -32,25 +32,25 @@ function actionUp(){
 	let updir = slice_dir.join("%2F");
 	//Prevent access to upper dir
 	if (updir == "") return;
-	obtainDirList(updir); 
+	ajaxObtainDirList(updir); 
 }
 
 function actionBrowserItemClick(dir) {
 	browser_history_back.push(current_dir);
 	browser_history_forward = [];
-	obtainDirList(dir); 
+	ajaxObtainDirList(dir); 
 }
 
 function actionFileOpen(file){
 	browser_history_back.push(current_dir);
 	browser_history_forward = [];
-	obtainFileContent(file);
+	ajaxObtainFileContent(file);
 }
 	
 function actionBack() {
 
 	if (current_file != ""){
-		saveFile(current_file);
+		ajaxSaveFile(current_file);
 		current_file = "";
 	}
 
@@ -63,19 +63,34 @@ function actionBack() {
 	back_dir = slice_dir.join("%2F");
 
 	browser_history_forward.push(current_dir);
-	obtainDirList(back_dir); 
+	ajaxObtainDirList(back_dir); 
 }
 
-function actionRename() {
-	let name = prompt("Nama barunya apa?", playlist_list[playlist_showing_no]);
-	if(name==null) return;
-	renamePlaylist(playlist_showing_no,name);
+function actionNewFile(){
+
+	ajaxAddFile();
+}
+
+
+function actionRenameFile(oldpath) {
+	name = decodeURIComponent(oldpath.replace(current_dir,""));
+	let newname = prompt("Nama barunya apa?",  name)
+	if(newname==null) return;
+	if(newname==name) return;
+	ajaxRenameFile(oldpath,newname);
 }
 
 function actionHome(){
 	if(current_dir == encodeURIComponent(home_dir + "/")) return;
-	obtainDirList(encodeURIComponent(home_dir)); 
+	ajaxObtainDirList(encodeURIComponent(home_dir)); 
 }
+
+function actionDeleteFile(file){
+	if( confirm("Hapus file "+ decodeURIComponent(file) +" ? ") ) {
+		ajaxDeleteFile(file);
+	}
+}
+
 
 //*************************
 //event handlings
@@ -89,7 +104,7 @@ function actionHome(){
 function initPlayer() {
 
 	mediaListener(mediaEv);
-	obtainDirList(encodeURIComponent(home_dir));
+	ajaxObtainDirList(encodeURIComponent(home_dir));
 	unsetEditable();
 
 }
@@ -112,75 +127,77 @@ function unsetEditable() {
 // AJAX codes
 //**********************
 
-function addFile(path) {
+function ajaxAddFile() {
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			obtainPlaylist(playlist_showing_no);
-			if(playlist_no == playlist_showing_no){
-				playlist = playlist_showing;
-				if(shuffle) updateShuffleList();
-			}
+			ajaxObtainDirList(current_dir);
 		}
 	}
 	
-	xhttp.open("GET","playlist.php?op=add&pl="+ plselectdom.value +"&path="+path,true);
-	xhttp.send();
+	xhttp.open("POST","textComposer.php",true);
+	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhttp.send('op=n&dirpath='+ encodeURIComponent(current_dir));
 }
 
-function delTrack(plno,trno) {
+function ajaxDeleteFile(file) {
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			obtainPlaylist(playlist_showing_no);
-
+			ajaxObtainDirList(current_dir);
 		}
 	}
 	
-	xhttp.open("GET","playlist.php?op=dt&pl="+ plno + "&tr=" + trno,true);
-	xhttp.send();
+	xhttp.open("POST","textComposer.php");
+	xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	xhttp.send("op=d&filepath="+file);
 }
 
 //obtain playlist from server and show it to playlist pane
 // dirname should be URL safe
 //
-function obtainDirList(dirname) {
+function ajaxObtainDirList(dirname) {
 
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			let dir_data = JSON.parse(this.responseText);
 
-			let playlist_html = '<div style="width:100%">';
+			let filelist_html = '<div style="width:100%">';
 			let name = "";
 			for (let i=0;i<dir_data.dir.length;i++){
 				name = decodeURIComponent(dir_data.dir[i].split("%2F").slice(-1)[0]);
-				playlist_html += '<div class="list_item">';
-				playlist_html += '<div class="list-item-name" style="color:lawngreen" onclick=actionBrowserItemClick(\"'+dir_data.dir[i]+'\") >';
-				playlist_html += '&#x21b3; ' + name;
-				playlist_html += '</div>';
-				playlist_html += '</div>';
+				filelist_html += '<div class="list_item">';
+				filelist_html += '<div class="list-item-name" style="color:lawngreen" onclick=actionBrowserItemClick(\"'+dir_data.dir[i]+'\") >';
+				filelist_html += '&#x21b3; ' + name;
+				filelist_html += '</div>';
+				filelist_html += '</div>';
 			}
 
 			for (let i=0;i<dir_data.file.length;i++){
 				name = decodeURIComponent(dir_data.file[i].split("%2F").slice(-1)[0]);
-				playlist_html += '<div class="list_item">';
-				playlist_html += '<div class="list-item-name" onclick=actionFileOpen(\"'+dir_data.file[i]+'\")>';
-				playlist_html += name;
-				playlist_html += '</div>';
-				playlist_html += '<button class="track_button">x</button>';
-				playlist_html += '</div>';
+				filelist_html += '<div class="list_item">';
+				filelist_html += '<div class="list-item-name" onclick=actionFileOpen(\"'+dir_data.file[i]+'\")>';
+				filelist_html += name;
+				filelist_html += '</div>';
+				filelist_html += '<button onclick=actionRenameFile(\"'+dir_data.file[i]+'\") class="track_button">R</button>';
+				filelist_html += '<button onclick=actionDeleteFile(\"'+dir_data.file[i]+'\") class="track_button">x</button>';
+				filelist_html += '</div>';
 			}
-			document.getElementById("editor-element").innerHTML = playlist_html;
-			current_dir = dirname + "%2F";
+			document.getElementById("editor-element").innerHTML = filelist_html;
+			if (current_dir != dirname){
+				current_dir = dirname + "%2F";
+			}
 			document.getElementById("current_dir").innerHTML = decodeURIComponent(current_dir).replace(home_dir,'') ;
 		}
 	}
+
 	xhttp.open("GET","getDirList.php?dir="+dirname,true);
 	xhttp.send();
 }
 
-function obtainFileContent(file) {
+function ajaxObtainFileContent(file) {
 
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -195,12 +212,12 @@ function obtainFileContent(file) {
 	xhttp.send();
 }
 
-function saveFile(file) {
+function ajaxSaveFile(file) {
 
 	let xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			alert("saved");
+			//indicate success 
 		}
 	}
 	xhttp.open("POST","textComposer.php",true);
@@ -213,6 +230,19 @@ function saveFile(file) {
 	xhttp.send(filedata);
 }
 
+function ajaxRenameFile(oldpath,newname){
+	let x = new XMLHttpRequest();
+	x.onreadystatechange = function() {
+		if(this.readyState == 4 && this.status == 200) {
+			ajaxObtainDirList(current_dir);
+		}
+	}
+	x.open("POST","textComposer.php",true);
+	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	newpath = current_dir + newname;
+	x.send('op=r&oldpath='+encodeURIComponent(oldpath)+'&newpath='+encodeURIComponent(newpath));
+}
 
 function mediaListener(x) {
 	if(x.matches){

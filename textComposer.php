@@ -32,8 +32,14 @@ $dirpath = str_replace('[','\[',$dirpath);
 
 function newFile() {
 	$dirpath = rawurldecode($_POST['dirpath']);
-	$filepath = $dirpath . '/' . date('Y-m-d-hi') . '.txt';
+	$filepath = $dirpath . date('Y-m-d-hi') . '.txt';
 	file_put_contents($filepath,"Your Text Here") or die("gagal");
+}
+
+function renameFile(){
+	$filepath = rawurldecode($_POST['oldpath']);
+	$newpath = rawurldecode($_POST['newpath']);
+	rename($filepath,$newpath) or die('r gagal');
 }
 
 function newDir() {
@@ -46,13 +52,16 @@ function getFileContents(){
 	echo $content;
 }
 
-
 function writeFileContents(){
 	$filepath = rawurldecode($_POST['filepath']);
 	$content = rawurldecode($_POST['content']);
 	file_put_contents($filepath,$content) or die("s  gagal");
 }
 
+function deleteFile(){
+	$filepath = rawurldecode($_POST['filepath']);
+	unlink($filepath) or die("d  gagal");
+}
 switch($op){
 
 	case 'n':
@@ -63,6 +72,12 @@ switch($op){
 		break;
 	case 's':
 		writeFileContents();
+		break;
+	case 'r':
+		renameFile();
+		break;
+	case 'd':
+		deleteFile();
 		break;
 }
 
