@@ -12,7 +12,7 @@
 //obtain current directory from parameter
 if(isset($_GET['dir'])) $targetdir = rawurldecode($_GET['dir']);
 if(isset($_POST['dir'])) $targetdir = rawurldecode($_POST['dir']);
-if($targetdir == "") $targetdir = "data";
+if(!isset($targetdir) || $targetdir == "" ) $targetdir = ".";
 
 //handle bug regarding square brackets
 $targetdir = str_replace('[','\[',$targetdir);
@@ -72,7 +72,8 @@ $file_list = glob($targetdir . "/*");
 foreach ($file_list as $filepath){
 	if(is_dir($filepath)){
 		$path = rawurlencode($filepath);
-		$filename = array_pop(explode('/',$filepath));
+		$nodes = explode('/',$filepath);
+		$filename = array_pop($nodes);
 		echo '<input type="radio" name="select-file" value="' . $path . '"></input>';
 		echo '<a href="index.php?dir=';
 			echo $path;
@@ -87,7 +88,8 @@ foreach ($file_list as $filepath){
 foreach ($file_list as $filepath){
 	if(!is_dir($filepath)){
 		$path = rawurlencode($filepath);
-		$filename = array_pop(explode('/',$filepath));
+		$nodes = explode('/',$filepath);
+		$filename = array_pop($nodes);
 		echo '<input type="radio" name="select-file" value="' . $path . '"></input>';
 		echo '<a href="edit.php?file=';
 			echo $path;

@@ -16,7 +16,19 @@ function actionsNewfile(){
 }
 
 function actionsNewdir(){
-	echo "newdir";
+	$dirpath = rawurldecode($_POST['dir']);
+	if($dirpath == ""){
+		echo "Directory path not specified";
+		return;
+	}
+	$newname = rawurldecode($_POST['new-name']);
+	if($newname == ""){
+		echo "Directory name not specified";
+		return;
+	}
+	$filepath = $dirpath . "/" . $newname;
+	mkdir($filepath) or die('Directory creation failed');
+	echo "Directory Created";
 
 }
 
