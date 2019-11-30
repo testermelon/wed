@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
+	<link type="image/x-icon" rel="icon" href="favicon-wed.ico" >
 </head>
 
 <body>
@@ -12,7 +13,7 @@
 //obtain current directory from parameter
 if(isset($_GET['dir'])) $targetdir = rawurldecode($_GET['dir']);
 if(isset($_POST['dir'])) $targetdir = rawurldecode($_POST['dir']);
-if(!isset($targetdir) || $targetdir == "" ) $targetdir = ".";
+if(!isset($targetdir) || $targetdir == "" ) $targetdir = "data";
 
 //handle bug regarding square brackets
 $targetdir = str_replace('[','\[',$targetdir);

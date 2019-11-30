@@ -47,7 +47,7 @@ if(isset($_POST['content'])){
 <form action="edit.php" method="POST">
 	<input type="submit" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
-	<a href="preview.php?path=<?php echo $filepath ?>" target="_blank"> Preview </a>
+	<a href="preview.php?preview=<?php echo $filepath ?>" target="_blank"> Preview </a>
 	<br>
 	File Contents:
 	<br>
