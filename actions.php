@@ -3,13 +3,11 @@
 function actionsNewfile(){
 	$dirpath = rawurldecode($_POST['dir']);
 	if($dirpath == ""){
-		echo "Directory path not specified";
-		return;
+		return "Directory path not specified";
 	}
 	$newname = rawurldecode($_POST['new-name']);
 	if($newname == ""){
-		echo "File name not specified";
-		return;
+		return "File name not specified";
 	}
 	$filepath = $dirpath . "/" . $newname;
 	file_put_contents($filepath,"") or die('File creation failed');
@@ -18,13 +16,11 @@ function actionsNewfile(){
 function actionsNewdir(){
 	$dirpath = rawurldecode($_POST['dir']);
 	if($dirpath == ""){
-		echo "Directory path not specified";
-		return;
+		return "Directory path not specified";
 	}
 	$newname = rawurldecode($_POST['new-name']);
 	if($newname == ""){
-		echo "Directory name not specified";
-		return;
+		return "Directory name not specified";
 	}
 	$filepath = $dirpath . "/" . $newname;
 	mkdir($filepath) or die('Directory creation failed');
@@ -36,22 +32,19 @@ function actionsNewdir(){
 function actionsRename(){
 	$dirpath = rawurldecode($_POST['dir']);
 	if($dirpath == ""){
-		echo "Directory path not specified";
-		return;
+		return "Directory path not specified";
 	}
 	$oldname = rawurldecode($_POST['select-file']);
 	if($oldname == ""){
-		echo "Target file not specified";
-		return;
+		return "Target file not specified";
 	}
 	$newname = rawurldecode($_POST['new-name']);
 	if($newname == ""){
-		echo "File name not specified";
-		return;
+		return "File name not specified";
 	}
 	$newname = $dirpath . '/' . $newname;
 	rename($oldname,$newname) or die('r gagal');
-	echo "Renamed";
+	return "Renamed";
 
 }
 
@@ -59,21 +52,21 @@ function actionsDelete(){
 
 	$dirpath = rawurldecode($_POST['dir']);
 	if($dirpath == ""){
-		echo "Directory path not specified";
-		return;
+		return "Directory path not specified";
 	}
 
 	$target = rawurldecode($_POST['select-file']);
 	if($target == ""){
-		echo "File not specified";
-		return;
+		return "File not specified";
 	}
 
-	if(is_file($target))
+	if(is_file($target)){
 		unlink($target) or die("Delete Failed");
-	if(is_dir($target))
+		return "File Deleted";
+	}
+	if(is_dir($target)){
 		rmdir($target) or die("Delete Failed");
-	echo "Deleted";
-
+		return "Directory Deleted";
+	}
 }
 ?>

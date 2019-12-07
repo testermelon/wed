@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
-	<link type="image/x-icon" rel="icon" href="favicon-wed.ico" >
-</head>
-
-<body>
-
 <?php 
 
 //obtain current directory from parameter
@@ -24,22 +14,79 @@ if(isset($targetdir)){
 	$i = 1;
 	$len = count($pathnodes);
 	$backlink = "";
+	$pathstring ="";
 	foreach($pathnodes as $node){
 		$backlink .= $node;
 		if($i == $len)
-			echo '/' . $node;
+			$pathstring .= '/' . $node;
 		else{
-			echo '/' . '<a href="index.php?dir=' . $backlink . '">'. $node . '</a>';
+			$pathstring .= '/' . '<a href="index.php?dir=' . $backlink . '">'. $node . '</a>';
 		}
 		$backlink .= '/';
 		$i++;
 	}
-	echo "<br>";
-}
-else
+} else
 	die('Filepath not set');
+
+include './actions.php';
+
+if(isset($_POST['submit-new'])) $action_output = actionsNewfile();
+if(isset($_POST['submit-newdir'])) $action_output = actionsNewdir();
+if(isset($_POST['submit-rename'])) $action_output = actionsRename();
+if(isset($_POST['submit-delete'])) $action_output = actionsDelete();
+
+
+//Generating dir and file list
+
+$file_list = glob($targetdir . "/*");
+
+//show directories list
+$dirlist_string = "";
+foreach ($file_list as $filepath){
+	if(is_dir($filepath)){
+		$path = rawurlencode($filepath);
+		$nodes = explode('/',$filepath);
+		$filename = array_pop($nodes);
+		$dirlist_string .= '<input type="radio" name="select-file" value="' . $path . '"></input>';
+		$dirlist_string .= '<a href="index.php?dir=';
+			$dirlist_string .= $path;
+			$dirlist_string .= '">';
+			$dirlist_string .= $filename . "/";
+		$dirlist_string .= '</a>';
+		$dirlist_string .= "<br>";
+	}
+}
+
+//show file list
+$filelist_string = "";
+foreach ($file_list as $filepath){
+	if(!is_dir($filepath)){
+		$path = rawurlencode($filepath);
+		$nodes = explode('/',$filepath);
+		$filename = array_pop($nodes);
+		$filelist_string .= '<input type="radio" name="select-file" value="' . $path . '"></input>';
+		$filelist_string .= '<a href="edit.php?file=';
+			$filelist_string .= $path;
+			$filelist_string .= '">';
+			$filelist_string .= $filename;
+		$filelist_string .= '</a>';
+		$filelist_string .= "<br>";
+	}
+}
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
+	<link type="image/x-icon" rel="icon" href="favicon-wed.ico" >
+</head>
+
+<body>
+
+Path: <?php echo $pathstring; ?>
+<br>
 <hr>
 
 <form action="index.php" method="POST">
@@ -51,56 +98,12 @@ else
 		<input type="submit"  name="submit-newdir" value="New Dir"></input>
 		<input type="submit"  name="submit-rename" value="Rename"></input>
 		<input type="submit"  name="submit-delete" value="Delete"></input>
-
-<?php
-		include './actions.php';
-		if(isset($_POST['submit-new'])) actionsNewfile();
-		if(isset($_POST['submit-newdir'])) actionsNewdir();
-		if(isset($_POST['submit-rename'])) actionsRename();
-		if(isset($_POST['submit-delete'])) actionsDelete();
-		?>
-
+		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
-
 <br>
 
-
-<?php
-
-$file_list = glob($targetdir . "/*");
-
-//show directories list
-foreach ($file_list as $filepath){
-	if(is_dir($filepath)){
-		$path = rawurlencode($filepath);
-		$nodes = explode('/',$filepath);
-		$filename = array_pop($nodes);
-		echo '<input type="radio" name="select-file" value="' . $path . '"></input>';
-		echo '<a href="index.php?dir=';
-			echo $path;
-			echo '">';
-			echo $filename . "/";
-		echo '</a>';
-		echo "<br>";
-	}
-}
-
-//show file list
-foreach ($file_list as $filepath){
-	if(!is_dir($filepath)){
-		$path = rawurlencode($filepath);
-		$nodes = explode('/',$filepath);
-		$filename = array_pop($nodes);
-		echo '<input type="radio" name="select-file" value="' . $path . '"></input>';
-		echo '<a href="edit.php?file=';
-			echo $path;
-			echo '">';
-			echo $filename;
-		echo '</a>';
-		echo "<br>";
-	}
-}
-?>
+<?php echo $dirlist_string; ?>
+<?php echo $filelist_string; ?>
 
 </body>
 
