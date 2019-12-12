@@ -10,7 +10,7 @@ function actionsNewfile(){
 		return "File name not specified";
 	}
 	$filepath = $dirpath . "/" . $newname;
-	file_put_contents($filepath,"") or die('File creation failed');
+	file_put_contents($filepath,"Your Text Here") or die('File creation failed');
 }
 
 function actionsNewdir(){
