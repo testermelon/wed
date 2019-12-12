@@ -9,10 +9,25 @@ if(isset($_GET['file']))
 //this means file contents was posted
 if(isset($_POST['file']))
 	$filepath = rawurldecode($_POST['file']);
+
 if(isset($_POST['content'])){
 	$content = rawurldecode($_POST['content']);
 	file_put_contents($filepath,$content) or die("s  gagal");
 }
+
+$image_file_string = "";
+
+//This means an image was uploaded
+if(isset($_POST['img_upload'])){
+	$temp_filename = $_FILES['imgfile']['tmp_name'];
+	$target_filename = '/img/' . $_FILES['imgfile']['name'];
+
+	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
+		$image_file_string .= '![Image Alt Text](' . $target_filename . ')';
+	}
+	else die('upload failed: file cannot be moved');
+}
+
 //--- handled POST
 
 //process data
@@ -33,8 +48,21 @@ if(isset($filepath)){
 		$i++;
 	}
 	$content = file_get_contents($filepath) or die("o gagal");
+	$content .= $image_file_string;
 } else 
 	die('Filepath not set');
+
+
+//obtain image links inside the file using regex
+
+preg_match_all('/!\[(.*?)\]\((.*?)\)/', $content, $image_links);
+
+$image_list_html = "";
+foreach ($image_links[2] as $imglink){
+
+	$image_list_html .= '<img src="' . $imglink . '"  width="100" height="75" > ';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +78,8 @@ Path: <?php echo $pathstring; ?>
 
 <hr>
 
-<form action="#" method="POST">
-	<input type="submit" value="Save">
+<form action="#" method="POST" enctype="multipart/form-data">
+	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
 	<a href="preview.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
@@ -59,19 +87,17 @@ Path: <?php echo $pathstring; ?>
 	File Contents:
 	<br>
 	<textarea name="content" cols="80" rows="25" style="max-width:90vw"><?php echo $content; ?></textarea>
-</form>
 
 <br>
-
+<br>
 <?php
 	//list images contained in the file
-	echo '<img src="/img/testermelon-banner.png" width="100" height="75" >';
+	echo $image_list_html;
 ?>
-
-
-<form action="#" method="">
-	<input type="submit" value="upload"></input>
-	<input name="filepath" type="file" ></input>
+<br>
+<br>
+	<input type="submit" name="img_upload" value="upload"></input>
+	<input name="imgfile" type="file" ></input>
 </form>
 
 </body>
