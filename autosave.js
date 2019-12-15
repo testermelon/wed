@@ -13,7 +13,7 @@ let timeoutHandler = {
 		clearTimeout(this.timer);
 		this.timer = 0;
 		this.timer = setTimeout(ajaxSave,10000);
-		if debug console.log("timer was reset");
+		if (debug) console.log("timer was reset");
 	}
 }
 
@@ -24,14 +24,14 @@ elemFormText.addEventListener('keydown',timeoutHandler.start);
 
 //autosaving ajax function
 function ajaxSave(){
-	if debug console.log("ajaxsave executed");
+	if (debug) console.log("ajaxsave executed");
 
 	let xhttp = new XMLHttpRequest();
 
 	//prepare function to handle response of request
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			if debug console.log(this.responseText);
+			if (debug) console.log(this.responseText);
 		}
 	}
 
@@ -46,7 +46,7 @@ function ajaxSave(){
 	form_data.append("autosave","true");
 
 	for(var data of form_data.values()){
-		if debug console.log(data);
+		if (debug) console.log(data);
 	}
 
 	//send request
