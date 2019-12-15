@@ -5,6 +5,9 @@ if(isset($_GET['file']))
 	$filepath = rawurldecode($_GET['file']);
 //-- handled GET
 
+//If autosaved, only save text
+if(isset($_POST['autosave']))
+	$autosave = true;
 
 //this means file contents was posted
 if(isset($_POST['file']))
@@ -12,25 +15,38 @@ if(isset($_POST['file']))
 
 if(isset($_POST['content'])){
 	$content = rawurldecode($_POST['content']);
-	file_put_contents($filepath,$content) or die("s  gagal");
+	if(file_put_contents($filepath,$content)){
+		//success
+		if($autosave){
+			//autosave only meaningful up to here
+			echo "Autosave success!";
+			exit();
+		}
+	}else{
+		die("save_failed");
+	}
 }
 
-$image_file_string = "";
-
 //This means an image was uploaded
-if(isset($_POST['img_upload'])){
+if(isset($_POST['img_upload']) && !$autosave){
 	$temp_filename = $_FILES['imgfile']['tmp_name'];
 	$target_filename = '/img/' . $_FILES['imgfile']['name'];
 
+	$image_file_string = "";
 	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
 		$image_file_string .= '![Image Alt Text](' . $target_filename . ')';
 	}
 	else die('upload failed: file cannot be moved');
 }
 
+
 //--- handled POST
 
-//process data
+
+
+
+
+//process display data
 if(isset($filepath)){
 	$pathnodes = explode('/',$filepath);
 	$i = 1;
@@ -78,7 +94,7 @@ Path: <?php echo $pathstring; ?>
 
 <hr>
 
-<form action="#" method="POST" enctype="multipart/form-data">
+<form id="wed-form" action="#" method="POST" enctype="multipart/form-data">
 	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
@@ -86,7 +102,7 @@ Path: <?php echo $pathstring; ?>
 	<br>
 	File Contents:
 	<br>
-	<textarea name="content" cols="80" rows="25" style="max-width:90vw"><?php echo $content; ?></textarea>
+	<textarea form="wed-form" id="form-text" name="content" cols="80" rows="25" style="max-width:90vw"><?php echo $content; ?></textarea>
 
 <br>
 <br>
@@ -99,5 +115,7 @@ Path: <?php echo $pathstring; ?>
 	<input type="submit" name="img_upload" value="upload"></input>
 	<input name="imgfile" type="file" ></input>
 </form>
+
+<script src="autosave.js"> </script>
 
 </body>
