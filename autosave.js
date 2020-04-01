@@ -13,7 +13,7 @@ let timeoutHandler = {
 	start : function(){
 		clearTimeout(this.timer);
 		this.timer = 0;
-		this.timer = setTimeout(ajaxSave,10000);
+		this.timer = setTimeout(ajaxSave,5000);
 		if (debug) console.log("timer was reset");
 		elemStatusText.innerHTML = "Edited";
 		elemStatusText.style = "color:red";
