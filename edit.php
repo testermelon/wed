@@ -39,12 +39,7 @@ if(isset($_POST['img_upload']) && !$autosave){
 	else die('upload failed: file cannot be moved');
 }
 
-
 //--- handled POST
-
-
-
-
 
 //process display data
 if(isset($filepath)){
@@ -100,7 +95,7 @@ Path: <?php echo $pathstring; ?>
 
 	<a href="preview.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
 	<br>
-	File Contents:
+	File Contents: <span id="status-text"> </span>
 	<br>
 	<textarea form="wed-form" id="form-text" name="content" cols="80" rows="25" style="max-width:90vw"><?php echo $content; ?></textarea>
 

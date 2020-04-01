@@ -5,6 +5,7 @@ let debug = true;
 //Capture dom elements
 let elemForm = document.getElementById('wed-form');
 let elemFormText = document.getElementById('form-text');
+let elemStatusText= document.getElementById('status-text');
 
 //build timer object to hold single timer instance
 let timeoutHandler = {
@@ -14,6 +15,7 @@ let timeoutHandler = {
 		this.timer = 0;
 		this.timer = setTimeout(ajaxSave,10000);
 		if (debug) console.log("timer was reset");
+		elemStatusText.innerHTML = "Edited";
 	}
 }
 
@@ -32,6 +34,7 @@ function ajaxSave(){
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			if (debug) console.log(this.responseText);
+			elemStatusText.innerHTML = "Saved";
 		}
 	}
 
