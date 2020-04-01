@@ -16,6 +16,7 @@ let timeoutHandler = {
 		this.timer = setTimeout(ajaxSave,10000);
 		if (debug) console.log("timer was reset");
 		elemStatusText.innerHTML = "Edited";
+		elemStatusText.style = "color:red";
 	}
 }
 
@@ -35,6 +36,7 @@ function ajaxSave(){
 		if (this.readyState == 4 && this.status == 200) {
 			if (debug) console.log(this.responseText);
 			elemStatusText.innerHTML = "Saved";
+			elemStatusText.style = "color:green";
 		}
 	}
 
