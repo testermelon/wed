@@ -50,10 +50,6 @@ function ajaxSave(){
 	//please reply short report instead of full html
 	form_data.append("autosave","true");
 
-	for(var data of form_data.values()){
-		if (debug) console.log(data);
-	}
-
 	//send request
 	xhttp.send(form_data);
 
