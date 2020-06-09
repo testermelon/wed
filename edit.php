@@ -1,5 +1,8 @@
 <?php
 
+$blog_location = "../"; //relative from wed
+$wed_location = "wed/"; //relative from blog
+
 //this means first access from index.php
 if(isset($_GET['file']))
 	$filepath = rawurldecode($_GET['file']);
@@ -93,7 +96,7 @@ Path: <?php echo $pathstring; ?>
 	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
-	<a href="preview.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
+	<a href="<?php echo $blog_location . "index.php?preview=" . $wed_location . $filepath ?>" target="preview-win"> Preview </a>
 	<br>
 	File Contents: <span id="status-text"> </span>
 	<br>
