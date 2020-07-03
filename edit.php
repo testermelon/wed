@@ -1,5 +1,11 @@
 <?php
 
+if(file_exists('config.php'))
+	$config = include('config.php');
+else
+	$config = include('defaults.php');
+
+
 //this means first access from index.php
 if(isset($_GET['file']))
 	$filepath = rawurldecode($_GET['file']);
@@ -30,7 +36,7 @@ if(isset($_POST['content'])){
 //This means an image was uploaded
 if(isset($_POST['img_upload']) && !$autosave){
 	$temp_filename = $_FILES['imgfile']['tmp_name'];
-	$target_filename = '/img/' . $_FILES['imgfile']['name'];
+	$target_filename = $config['imgpath'] . $_FILES['imgfile']['name'];
 
 	$image_file_string = "";
 	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
@@ -93,7 +99,7 @@ Path: <?php echo $pathstring; ?>
 	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
-	<a href="preview.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
+	<a href="<?php echo $config['blogpath'] ?> index.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
 	<br>
 	File Contents: <span id="status-text"> </span>
 	<br>

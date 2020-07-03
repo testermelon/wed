@@ -1,9 +1,15 @@
 <?php 
 
+if(file_exists('config.php'))
+	$config = include('config.php');
+else
+	$config = include('defaults.php');
+
+
 //obtain current directory from parameter
 if(isset($_GET['dir'])) $targetdir = rawurldecode($_GET['dir']);
 if(isset($_POST['dir'])) $targetdir = rawurldecode($_POST['dir']);
-if(!isset($targetdir) || $targetdir == "" ) $targetdir = "data";
+if(!isset($targetdir) || $targetdir == "" ) $targetdir = $config['homedir'] ;
 
 //handle bug regarding square brackets
 $targetdir = str_replace('[','\[',$targetdir);
