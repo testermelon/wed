@@ -1,10 +1,15 @@
 <?php
 
+<<<<<<< HEAD
 if(file_exists('config.php'))
 	$config = include('config.php');
 else
 	$config = include('defaults.php');
 
+=======
+$blog_location = "../"; //relative from wed
+$wed_location = "wed/"; //relative from blog
+>>>>>>> ae71b15696dfdfb7c2a4a784ceb3423582f2eb88
 
 //this means first access from index.php
 if(isset($_GET['file']))
@@ -99,7 +104,11 @@ Path: <?php echo $pathstring; ?>
 	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
+<<<<<<< HEAD
 	<a href="<?php echo $config['blogpath'] ?> index.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
+=======
+	<a href="<?php echo $blog_location . "index.php?preview=" . $wed_location . $filepath ?>" target="preview-win"> Preview </a>
+>>>>>>> ae71b15696dfdfb7c2a4a784ceb3423582f2eb88
 	<br>
 	File Contents: <span id="status-text"> </span>
 	<br>
