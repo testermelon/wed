@@ -1,15 +1,9 @@
 <?php
 
-<<<<<<< HEAD
 if(file_exists('config.php'))
 	$config = include('config.php');
 else
 	$config = include('defaults.php');
-
-=======
-$blog_location = "../"; //relative from wed
-$wed_location = "wed/"; //relative from blog
->>>>>>> ae71b15696dfdfb7c2a4a784ceb3423582f2eb88
 
 //this means first access from index.php
 if(isset($_GET['file']))
@@ -45,7 +39,7 @@ if(isset($_POST['img_upload']) && !$autosave){
 
 	$image_file_string = "";
 	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
-		$image_file_string .= '![Image Alt Text](' . $target_filename . ')';
+		$image_file_string .= '![Image Alt Text](' . $_FILES['imgfile']['name'] . ')';
 	}
 	else die('upload failed: file cannot be moved');
 }
@@ -82,7 +76,7 @@ preg_match_all('/!\[(.*?)\]\((.*?)\)/', $content, $image_links);
 $image_list_html = "";
 foreach ($image_links[2] as $imglink){
 
-	$image_list_html .= '<img src="' . $imglink . '"  width="100" height="75" > ';
+	$image_list_html .= '<img src="'.  $config['imgpath'] . $imglink . '"  height="75" > ';
 }
 
 ?>
@@ -104,11 +98,7 @@ Path: <?php echo $pathstring; ?>
 	<input type="submit" name="save" value="Save">
 	<input name="file" type="hidden" value="<?php echo $filepath ?>"></input>
 
-<<<<<<< HEAD
 	<a href="<?php echo $config['blogpath'] ?> index.php?preview=<?php echo $filepath ?>" target="preview-win"> Preview </a>
-=======
-	<a href="<?php echo $blog_location . "index.php?preview=" . $wed_location . $filepath ?>" target="preview-win"> Preview </a>
->>>>>>> ae71b15696dfdfb7c2a4a784ceb3423582f2eb88
 	<br>
 	File Contents: <span id="status-text"> </span>
 	<br>
