@@ -1,5 +1,15 @@
 <?php
 
+/*Returns default new text for new file contents
+ */
+function newText(){
+	$new_text = "date=" . date("Ymd") . "\n";
+	$new_text.= "layout=article\n";
+	$new_text.= "title=Artikel Baru\n";
+	$new_text.= "---";
+	return $new_text;
+}
+
 function actionsNewfile(){
 	$dirpath = rawurldecode($_POST['dir']);
 	if($dirpath == ""){
@@ -10,7 +20,7 @@ function actionsNewfile(){
 		return "File name not specified";
 	}
 	$filepath = $dirpath . "/" . $newname;
-	file_put_contents($filepath,"Your Text Here") or die('File creation failed');
+	file_put_contents($filepath,newText()) or die('File creation failed');
 }
 
 function actionsNewdir(){
