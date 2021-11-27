@@ -83,12 +83,12 @@ function actionsDelete(){
 function actionsUpload(){
 	$dirpath = rawurldecode($_POST['dir']);
 	$temp_filename = $_FILES['upload-files']['tmp_name'];
-	$target_filename = $dirpath . $_FILES['upload-files']['name'];
+	$target_filename = $dirpath . '/' . $_FILES['upload-files']['name'];
 
 	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
 		return "Uploaded";
 	}
 	else 
-		return "Upload Failed: ". $temp_filename . " --- " . $target_filename;
+		return "Upload Failed: ".$_FILES['upload-files']['tmp_name'];  . " --- " . $target_filename;
 }
 ?>
