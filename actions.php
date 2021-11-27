@@ -89,6 +89,6 @@ function actionsUpload(){
 		return "Uploaded";
 	}
 	else 
-		return "Upload Faied";
+		return "Upload Failed: ". $temp_filename . " --- " . $target_filename;
 }
 ?>
