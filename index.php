@@ -106,9 +106,8 @@ Path: <?php echo $pathstring; ?>
 		<input type="submit"  name="submit-delete" value="Delete"></input>
 		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
-<hr>
-<input type="file" name="upload-files" mutiple >
 <br>
+<input type="file" name="upload-files" mutiple >
 <input type="submit" name="submit-upload" value="Upload"></input>
 <br>
 <br>
