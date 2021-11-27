@@ -91,5 +91,6 @@ function actionsUpload(){
 	else {
 		var_dump($_FILES);
 		return "Upload Failed: ".$_FILES['upload-files']['tmp_name'] . " --- " . $target_filename;
+	}
 }
 ?>
