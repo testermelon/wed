@@ -98,6 +98,9 @@ Path: <?php echo $pathstring; ?>
 
 <form action="index.php" method="POST">
 
+<input type="file" name="upload-files" mutiple >
+<input type="submit" name="submit-upload" value="Upload"></input>
+
 	<div class="panel">
 		<input type="hidden" name="dir" value="<?php echo $targetdir ?>"></input>
 		<input name="new-name" placeholder="New name/New item name"></input>
@@ -107,8 +110,6 @@ Path: <?php echo $pathstring; ?>
 		<input type="submit"  name="submit-delete" value="Delete"></input>
 		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
-<input type="file" name="upload-files" mutiple >
-<input type="submit" name="submit-upload" value="Upload"></input>
 <br>
 
 <?php echo $dirlist_string; ?>
