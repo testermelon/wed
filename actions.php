@@ -88,7 +88,8 @@ function actionsUpload(){
 	if(move_uploaded_file($temp_filename, $_SERVER['DOCUMENT_ROOT'] . $target_filename)){
 		return "Uploaded";
 	}
-	else 
+	else {
+		var_dump($_FILES);
 		return "Upload Failed: ".$_FILES['upload-files']['tmp_name'] . " --- " . $target_filename;
 }
 ?>
