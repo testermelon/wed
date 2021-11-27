@@ -40,6 +40,7 @@ if(isset($_POST['submit-new'])) $action_output = actionsNewfile();
 if(isset($_POST['submit-newdir'])) $action_output = actionsNewdir();
 if(isset($_POST['submit-rename'])) $action_output = actionsRename();
 if(isset($_POST['submit-delete'])) $action_output = actionsDelete();
+if(isset($_POST['submit-upload'])) $action_output = actionsUpload();
 
 
 //Generating dir and file list
@@ -106,6 +107,8 @@ Path: <?php echo $pathstring; ?>
 		<input type="submit"  name="submit-delete" value="Delete"></input>
 		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
+<input type="file" name="upload-files" mutiple >
+<input type="submit" name="submit-upload" value="Upload"></input>
 <br>
 
 <?php echo $dirlist_string; ?>

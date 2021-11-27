@@ -79,4 +79,8 @@ function actionsDelete(){
 		return "Directory Deleted";
 	}
 }
+
+function actionsUpload(){
+	return "Uploaded";
+}
 ?>
