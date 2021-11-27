@@ -89,6 +89,6 @@ function actionsUpload(){
 		return "Uploaded";
 	}
 	else 
-		return "Upload Failed: ".$_FILES['upload-files']['tmp_name'];  . " --- " . $target_filename;
+		return "Upload Failed: ".$_FILES['upload-files']['tmp_name'] . " --- " . $target_filename;
 }
 ?>
