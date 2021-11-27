@@ -92,9 +92,6 @@ foreach ($file_list as $filepath){
 
 <body>
 
-Path: <?php echo $pathstring; ?>
-<br>
-
 <form action="index.php" method="POST">
 	<div class="panel">
 		<input type="hidden" name="dir" value="<?php echo $targetdir ?>"></input>
@@ -107,6 +104,9 @@ Path: <?php echo $pathstring; ?>
 	</div>
 <input type="file" name="upload-files" mutiple >
 <input type="submit" name="submit-upload" value="Upload"></input>
+<br>
+
+Path: <?php echo $pathstring; ?>
 <br>
 
 <?php echo $dirlist_string; ?>
