@@ -103,7 +103,7 @@ foreach ($file_list as $filepath){
 		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
 	<div>
-		<input type="file" name="upload-files" mutiple >
+		<input type="file" name="upload-files" >
 		<input type="submit" name="submit-upload" value="Upload"></input>
 	</div>
 
