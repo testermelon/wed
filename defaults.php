@@ -13,7 +13,7 @@ return array(
 	'blogpath'=>'/',
 	//homedir is the first dir opened at startup
 	//ends with /
-	'homedir'=>'../contents/',
+	'homedir'=>'../contents',
 );
 
 ?>
