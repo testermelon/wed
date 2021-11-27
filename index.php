@@ -102,12 +102,12 @@ foreach ($file_list as $filepath){
 		<input type="submit"  name="submit-delete" value="Delete"></input>
 		<?php if(isset($action_output)) echo '<em>' . $action_output . '</em>'; ?>
 	</div>
-<input type="file" name="upload-files" mutiple >
-<input type="submit" name="submit-upload" value="Upload"></input>
-<br>
+	<div>
+		<input type="file" name="upload-files" mutiple >
+		<input type="submit" name="submit-upload" value="Upload"></input>
+	</div>
 
-Path: <?php echo $pathstring; ?>
-<br>
+<div> Path: <?php echo $pathstring; ?> </div>
 
 <?php echo $dirlist_string; ?>
 <?php echo $filelist_string; ?>
