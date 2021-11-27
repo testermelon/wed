@@ -92,7 +92,7 @@ foreach ($file_list as $filepath){
 
 <body>
 
-<form action="index.php" method="POST">
+<form action="index.php" method="POST" enctype="multipart/form-data">
 	<div class="panel">
 		<input type="hidden" name="dir" value="<?php echo $targetdir ?>"></input>
 		<input name="new-name" placeholder="New name/New item name"></input>
