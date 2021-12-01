@@ -71,12 +71,17 @@ foreach ($file_list as $filepath){
 		$path = rawurlencode($filepath);
 		$nodes = explode('/',$filepath);
 		$filename = array_pop($nodes);
+		$filelist_string .= '</a>';	
+		$filelist_string .= '<a href="';
+			$filelist_string .= $path;
+			$filelist_string .= '">';
+			$filelist_string .= 'DL';
+		$filelist_string .= '</a>';
 		$filelist_string .= '<input type="radio" name="select-file" value="' . $path . '"></input>';
 		$filelist_string .= '<a href="edit.php?file=';
 			$filelist_string .= $path;
 			$filelist_string .= '">';
 			$filelist_string .= $filename;
-		$filelist_string .= '</a>';
 		$filelist_string .= "<br>";
 	}
 }
