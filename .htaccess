@@ -1,4 +1,4 @@
   AuthType Basic
   AuthName "Area Terbatas"
-  AuthUserFile /home/indra/housekeeping/.htpasswd
+  # AuthUserFile /home/USERNAME/housekeeping/.htpasswd
   require valid-user
